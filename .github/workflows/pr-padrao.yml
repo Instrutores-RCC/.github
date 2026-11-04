@@ -1,0 +1,53 @@
+name: PR padrão
+
+# Workflow reutilizável. Cada repositório chama assim:
+#   jobs:
+#     padrao:
+#       uses: Instrutores-RCC/.github/.github/workflows/pr-padrao.yml@main
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  segredos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Nenhum segredo ou arquivo proibido no PR
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -u
+          falhou=0
+          arquivos=$(git diff --name-only --diff-filter=A "$BASE"...HEAD)
+          if echo "$arquivos" | grep -E '(^|/)(ids\.json|\.env(\..*)?|\.clasprc\.json)$' | grep -v '\.env\.exemplo$'; then
+            echo "::error::Arquivo proibido no PR (ids.json, .env ou .clasprc.json). Ele vai no .gitignore."
+            falhou=1
+          fi
+          novas=$(git diff -U0 "$BASE"...HEAD | grep '^+' | grep -v '^+++' || true)
+          if echo "$novas" | grep -nE 'ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|AIza[0-9A-Za-z_-]{35}|-----BEGIN [A-Z ]*PRIVATE KEY-----|"client_secret"|xox[baprs]-[A-Za-z0-9-]{10,}'; then
+            echo "::error::Parece token ou chave no PR. Tire, troque o token e leia SECURITY.md."
+            falhou=1
+          fi
+          if echo "$novas" | grep -qE 'docs\.google\.com/spreadsheets/d/[A-Za-z0-9_-]{25,}'; then
+            echo "::warning::Link de planilha no PR. Id de planilha vai no ids.json, não no código."
+          fi
+          exit $falhou
+
+  template:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Corpo do PR usa o modelo
+        env:
+          CORPO: ${{ github.event.pull_request.body }}
+        run: |
+          if ! printf '%s' "$CORPO" | grep -qiE 'como testar'; then
+            echo "::warning::O PR não tem a seção 'Como testar' do modelo."
+          fi

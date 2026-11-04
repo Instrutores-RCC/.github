@@ -10,14 +10,14 @@ body:
     id: nick
     attributes:
       label: Seu nick na RCC
-      placeholder: Ex.: JokesD
+      placeholder: "Ex.: JokesD"
     validations:
       required: true
   - type: input
     id: onde
     attributes:
       label: Onde aconteceu
-      description: Tela, página do fórum (ex.: h356) ou link.
+      description: "Tela, página do fórum (ex.: h356) ou link."
     validations:
       required: true
   - type: textarea

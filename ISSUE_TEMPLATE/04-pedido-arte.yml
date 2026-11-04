@@ -7,7 +7,7 @@ body:
     id: oque
     attributes:
       label: O que precisa
-      placeholder: Ex.: hamster acenando para a tela de carregamento
+      placeholder: "Ex.: hamster acenando para a tela de carregamento"
     validations:
       required: true
   - type: input
@@ -21,7 +21,7 @@ body:
     id: tamanho
     attributes:
       label: Tamanho final em px
-      placeholder: Ex.: 152x152 nativo
+      placeholder: "Ex.: 152x152 nativo"
   - type: textarea
     id: referencia
     attributes:

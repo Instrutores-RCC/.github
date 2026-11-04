@@ -1,0 +1,33 @@
+name: Revisão trimestral
+
+on:
+  schedule:
+    - cron: "0 12 1 1,4,7,10 *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  lembrete:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Abrir a issue da revisão
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create -R "$GITHUB_REPOSITORY" \
+            --title "Revisão trimestral $(date +%Y-%m)" \
+            --label tipo:tarefa \
+            --body "Responsável: \`lider-dev\`. Uns 15 minutos.
+
+          - [ ] Ações deste repositório estão verdes (aba Actions).
+          - [ ] Issue \"Saúde da organização\" fechada ou com plano.
+          - [ ] Token \`ORG_TOKEN\` não vence nos próximos 90 dias.
+          - [ ] 2 donos e 2 pessoas em \`lider-dev\`.
+          - [ ] Ninguém inativo há 6 meses nos times.
+          - [ ] Alertas do Dependabot zerados ou com issue.
+          - [ ] Tabela \"Quem é quem\" em docs/CARGOS.md atualizada.
+
+          Guia: docs/MANUTENCAO.md"

@@ -1,0 +1,22 @@
+name: Saúde da organização
+
+on:
+  schedule:
+    - cron: "0 12 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  saude:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Conferir regras e abrir/fechar a issue
+        env:
+          GH_TOKEN: ${{ secrets.ORG_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then echo "Falta o segredo ORG_TOKEN. Veja docs/MANUTENCAO.md"; exit 1; fi
+          python3 scripts/saude_org.py --issue

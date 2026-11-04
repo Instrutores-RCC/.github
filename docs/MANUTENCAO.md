@@ -32,6 +32,11 @@ A organização não depende de uma pessoa. Se qualquer dev sair, nada para.
 | O quê | Como |
 |---|---|
 | Labels iguais em todos os repositórios | Ação `Sincroniza labels`: roda ao mudar `labels.json` e todo dia 1º |
+| Conferência das regras desta página | Ação `Saúde da organização`: toda segunda; abre a issue "Saúde da organização" se algo saiu da regra e fecha quando volta |
+| Lembrete da revisão trimestral | Ação `Revisão trimestral`: abre a issue com o checklist em jan, abr, jul e out |
+| Checagem de segredo em todo PR | Workflow reutilizável `pr-padrao.yml`, chamado por `.github/workflows/pr.yml` de cada repositório |
+| Validação deste repositório | Ação `Valida configuração`: scripts, `labels.json` e formulários abrem sem erro |
+| Ações sempre atualizadas | Dependabot abre PR mensal quando uma ação usada fica velha |
 | Templates de issue e PR | Herdados deste repositório `.github` por todos os repositórios |
 | Alerta de dependência | Dependabot ligado por padrão em repositório novo |
 | Estrutura de repositório novo | Criar a partir do modelo `modelo-projeto` |
@@ -49,15 +54,15 @@ Em janeiro, abril, julho e outubro:
 
 ## Token de automação
 
-A ação de labels precisa de um token com acesso de administração aos repositórios.
+As ações de labels e de saúde precisam de um token com acesso de administração aos repositórios.
 
 1. Entrar na conta `instrutoresrcc`.
 2. Settings → Developer settings → Fine-grained tokens → Generate.
-3. Dono: `Instrutores-RCC`; repositórios: todos; permissões: Issues (leitura e escrita), Metadata (leitura). Validade: 1 ano.
+3. Dono: `Instrutores-RCC`; repositórios: todos; permissões de repositório: Administration (leitura), Contents (leitura), Issues (leitura e escrita), Metadata (leitura); permissões da organização: Members (leitura). Validade: 1 ano.
 4. Neste repositório: Settings → Secrets and variables → Actions → `ORG_TOKEN`.
 5. Anotar a data de vencimento na issue fixada "Vencimento do token".
 
-Sem o token a ação falha e manda e-mail; nada mais quebra. Dá para rodar na mão: `python scripts/sincroniza_labels.py --aplicar`.
+Sem o token essas duas ações falham e manda e-mail; nada mais quebra. Dá para rodar na mão: `python scripts/sincroniza_labels.py --aplicar`.
 
 ## Recriar tudo do zero
 

@@ -25,14 +25,14 @@ body:
     id: problema
     attributes:
       label: Qual problema isso resolve
-      description: Conte o problema, não a solução. Ex.: "a escala é montada à mão e erra o dia".
+      description: "Conte o problema, não a solução. Ex.: \"a escala é montada à mão e erra o dia\"."
     validations:
       required: true
   - type: textarea
     id: quem
     attributes:
       label: Quem vai usar e quantas vezes
-      placeholder: Ex.: 4 secretários, todo dia, pelo celular
+      placeholder: "Ex.: 4 secretários, todo dia, pelo celular"
     validations:
       required: true
   - type: input

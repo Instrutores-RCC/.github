@@ -1,0 +1,22 @@
+name: Valida configuração
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  valida:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install -q pyyaml
+      - name: Scripts compilam, JSON e YAML abrem
+        run: |
+          python3 -m py_compile scripts/*.py
+          python3 -c "import json; d=json.load(open('labels.json')); n=[l['name'] for l in d['labels']]; assert len(n)==len(set(n)), 'label repetida'"
+          python3 -c "import glob,yaml; [yaml.safe_load(open(f)) for f in glob.glob('ISSUE_TEMPLATE/*.yml')+glob.glob('.github/workflows/*.yml')]"
