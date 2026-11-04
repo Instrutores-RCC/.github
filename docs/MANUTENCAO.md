@@ -34,7 +34,10 @@ A organização não depende de uma pessoa. Se qualquer dev sair, nada para.
 | Labels iguais em todos os repositórios | Ação `Sincroniza labels`: roda ao mudar `labels.json` e todo dia 1º |
 | Conferência das regras desta página | Ação `Saúde da organização`: toda segunda; abre a issue "Saúde da organização" se algo saiu da regra e fecha quando volta |
 | Lembrete da revisão trimestral | Ação `Revisão trimestral`: abre a issue com o checklist em jan, abr, jul e out |
-| Checagem de segredo em todo PR | Workflow reutilizável `pr-padrao.yml`, chamado por `.github/workflows/pr.yml` de cada repositório |
+| Checagem de segredo, testes e rótulos em todo PR | Workflow reutilizável `pr-padrao.yml`, chamado por `.github/workflows/pr.yml` de cada repositório |
+| Issue marcada `estado:em-revisao` quando o PR que a fecha abre | Mesmo `pr-padrao.yml` (job `rotulos`) |
+| Aviso de commit direto na `main` | Mesmo `pr-padrao.yml` (job `push-direto`) abre issue |
+| Regras de merge e proteção da `main` reaplicadas | Ação `Saúde da organização` roda `aplica_org.py --aplicar` toda segunda |
 | Validação deste repositório | Ação `Valida configuração`: scripts, `labels.json` e formulários abrem sem erro |
 | Ações sempre atualizadas | Dependabot abre PR mensal quando uma ação usada fica velha |
 | Templates de issue e PR | Herdados deste repositório `.github` por todos os repositórios |
@@ -58,7 +61,7 @@ As ações de labels e de saúde precisam de um token com acesso de administraç
 
 1. Entrar na conta `instrutoresrcc`.
 2. Settings → Developer settings → Fine-grained tokens → Generate.
-3. Dono: `Instrutores-RCC`; repositórios: todos; permissões de repositório: Administration (leitura), Contents (leitura), Issues (leitura e escrita), Metadata (leitura); permissões da organização: Members (leitura). Validade: 1 ano.
+3. Dono: `Instrutores-RCC`; repositórios: todos; permissões de repositório: Administration (leitura e escrita), Contents (leitura), Issues (leitura e escrita), Metadata (leitura); permissões da organização: Members (leitura). Validade: 1 ano.
 4. Neste repositório: Settings → Secrets and variables → Actions → `ORG_TOKEN`.
 5. Anotar a data de vencimento na issue fixada "Vencimento do token".
 

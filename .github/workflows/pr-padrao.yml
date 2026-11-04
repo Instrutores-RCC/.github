@@ -1,20 +1,36 @@
 name: PR padrão
 
-# Workflow reutilizável. Cada repositório chama assim:
+# Workflow reutilizável. Cada repositório chama com .github/workflows/pr.yml:
+#
+#   on:
+#     pull_request:
+#     push:
+#       branches: [main]
+#   permissions:
+#     contents: read
+#     pull-requests: write
+#     issues: write
 #   jobs:
 #     padrao:
 #       uses: Instrutores-RCC/.github/.github/workflows/pr-padrao.yml@main
+#       with:
+#         teste: "node testes/testa_codigo.js"
 
 on:
   workflow_call:
-
-permissions:
-  contents: read
+    inputs:
+      teste:
+        description: Comando que roda os testes (vazio = sem testes)
+        type: string
+        default: ""
 
 jobs:
   segredos:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,7 +39,6 @@ jobs:
         env:
           BASE: ${{ github.event.pull_request.base.sha }}
         run: |
-          set -u
           falhou=0
           arquivos=$(git diff --name-only --diff-filter=A "$BASE"...HEAD)
           if echo "$arquivos" | grep -E '(^|/)(ids\.json|\.env(\..*)?|\.clasprc\.json)$' | grep -v '\.env\.exemplo$'; then
@@ -40,14 +55,79 @@ jobs:
           fi
           exit $falhou
 
-  template:
+  testes:
+    if: github.event_name == 'pull_request' && inputs.teste != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rodar testes
+        run: ${{ inputs.teste }}
+
+  rotulos:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Rotular PR pela pasta e marcar a issue como em revisão
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          CORPO: ${{ github.event.pull_request.body }}
+        run: |
+          pastas=$(gh pr view "$PR" -R "$REPO" --json files --jq '.files[].path')
+          add() { gh pr edit "$PR" -R "$REPO" --add-label "$1" >/dev/null 2>&1 || true; }
+          echo "$pastas" | grep -q '^design/'  && add area:design
+          echo "$pastas" | grep -q '/assets/'  && add area:assets
+          echo "$pastas" | grep -q '^script/'  && add area:apps-script
+          echo "$pastas" | grep -q '^forum/'   && add area:forum
+          echo "$pastas" | grep -q '^testes/'  && add area:testes
+          echo "$pastas" | grep -qE '^docs/|\.md$' && ! echo "$pastas" | grep -qvE '^docs/|\.md$' && add tipo:docs
+          for n in $(printf '%s' "$CORPO" | grep -oiE '(fecha|closes|fixes|resolve)s? #[0-9]+' | grep -oE '[0-9]+'); do
+            gh issue edit "$n" -R "$REPO" --add-label estado:em-revisao \
+              --remove-label estado:em-andamento --remove-label estado:pronto-pra-dev >/dev/null 2>&1 || true
+          done
+
+  modelo:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 2
+    permissions: {}
     steps:
       - name: Corpo do PR usa o modelo
         env:
           CORPO: ${{ github.event.pull_request.body }}
         run: |
-          if ! printf '%s' "$CORPO" | grep -qiE 'como testar'; then
+          if ! printf '%s' "$CORPO" | grep -qi 'como testar'; then
             echo "::warning::O PR não tem a seção 'Como testar' do modelo."
+          fi
+
+  push-direto:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Avisar se alguém mandou commit direto na main
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          QUEM: ${{ github.actor }}
+        run: |
+          prs=$(gh api "repos/$REPO/commits/$SHA/pulls" --jq 'length')
+          if [ "$prs" = "0" ]; then
+            gh issue create -R "$REPO" --label tipo:tarefa --label estado:bloqueado \
+              --title "Commit direto na main: ${SHA:0:7}" \
+              --body "\`$QUEM\` mandou o commit $SHA direto na main, sem PR. Regra: docs/APROVACAO-PR.md da organização. Revisar o commit e fechar esta issue." || true
+            echo "::warning::Commit direto na main sem PR."
           fi
