@@ -11,12 +11,20 @@ permissions:
 jobs:
   saude:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Conferir regras e abrir/fechar a issue
+      - name: Conferir token
         env:
           GH_TOKEN: ${{ secrets.ORG_TOKEN }}
         run: |
           if [ -z "$GH_TOKEN" ]; then echo "Falta o segredo ORG_TOKEN. Veja docs/MANUTENCAO.md"; exit 1; fi
-          python3 scripts/saude_org.py --issue
+      - name: Reaplicar times, permissões, tópicos e regras de merge (corrige repositório novo)
+        env:
+          GH_TOKEN: ${{ secrets.ORG_TOKEN }}
+        run: python3 scripts/aplica_org.py --aplicar
+      - name: Conferir regras e abrir/fechar a issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.ORG_TOKEN }}
+        run: python3 scripts/saude_org.py --issue

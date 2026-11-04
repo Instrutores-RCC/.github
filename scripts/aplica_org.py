@@ -56,13 +56,49 @@ TOPICOS = {
 }
 
 
-def gh(*args, ok404=False):
-    r = subprocess.run(["gh", "api", *args], capture_output=True, text=True, encoding="utf-8")
+def gh(*args, ok404=False, corpo=None):
+    if corpo is not None:
+        args = (*args, "--input", "-")
+    r = subprocess.run(["gh", "api", *args], capture_output=True, text=True, encoding="utf-8",
+                       input=json.dumps(corpo) if corpo is not None else None)
     if r.returncode != 0:
         if ok404 and "404" in r.stderr:
             return None
         raise RuntimeError(f"gh api {' '.join(args)}: {r.stderr.strip()}")
     return json.loads(r.stdout) if r.stdout.strip() else {}
+
+
+def protecao(repo):
+    """Regra da main (docs/APROVACAO-PR.md). Admin (lider-dev) pode furar em emergência."""
+    check = "valida" if repo == ".github" else "padrao / segredos"
+    return {
+        "required_status_checks": {"strict": False, "contexts": [check]},
+        "enforce_admins": False,
+        "required_pull_request_reviews": {
+            "required_approving_review_count": 1,
+            "require_code_owner_reviews": True,
+            "dismiss_stale_reviews": True,
+        },
+        "restrictions": None,
+        "required_conversation_resolution": True,
+        "allow_force_pushes": False,
+        "allow_deletions": False,
+    }
+
+
+def protege(repo, faz):
+    print("  main protegida: PR, 1 aprovação do CODEOWNERS, check verde, sem force push")
+    if not faz:
+        return
+    try:
+        gh("-X", "PUT", f"repos/{ORG}/{repo}/branches/main/protection", corpo=protecao(repo))
+    except RuntimeError as e:
+        if "Upgrade to GitHub Pro" in str(e) or "403" in str(e):
+            print("  AVISO: plano free não protege repositório privado; a regra vale só por CODEOWNERS e pela ação push-direto")
+        elif "Branch not found" in str(e) or "404" in str(e):
+            print("  AVISO: repositório sem main ainda, pulando")
+        else:
+            raise
 
 
 def main():
@@ -97,6 +133,12 @@ def main():
             print(f"  {slug}: {perm}")
             if faz:
                 gh("-X", "PUT", f"orgs/{ORG}/teams/{slug}/repos/{ORG}/{repo}", "-f", f"permission={perm}")
+        print("  merge: só squash, apaga branch depois")
+        if faz:
+            gh("-X", "PATCH", f"repos/{ORG}/{repo}", "-F", "allow_squash_merge=true",
+               "-F", "allow_merge_commit=false", "-F", "allow_rebase_merge=false",
+               "-F", "delete_branch_on_merge=true")
+        protege(repo, faz)
 
     if not faz:
         print("\n(simulação; rode com --aplicar)")
