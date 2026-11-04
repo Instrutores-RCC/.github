@@ -1,0 +1,51 @@
+{
+  "labels": [
+    {"name": "tipo:bug", "color": "d73a4a", "description": "Funcionava e parou, ou faz a coisa errada"},
+    {"name": "tipo:funcionalidade", "color": "0e8a16", "description": "Coisa nova"},
+    {"name": "tipo:melhoria", "color": "5ebd6c", "description": "Melhora algo que já existe"},
+    {"name": "tipo:docs", "color": "0075ca", "description": "Documentação, spec, manual"},
+    {"name": "tipo:arte", "color": "e99695", "description": "Imagem, ícone, mascote, protótipo"},
+    {"name": "tipo:seguranca", "color": "b60205", "description": "Endurecimento de segurança não sensível"},
+    {"name": "tipo:tarefa", "color": "c5def5", "description": "Manutenção, configuração, limpeza"},
+
+    {"name": "setor:src", "color": "005fb2", "description": "Setor de Relações Comunicativas"},
+    {"name": "setor:ssi", "color": "5319e7", "description": "Setor de Segurança dos Instrutores"},
+    {"name": "setor:da", "color": "1d76db", "description": "Departamento de Aplicação"},
+    {"name": "setor:ouvidoria", "color": "a52381", "description": "Ouvidoria dos Instrutores"},
+    {"name": "setor:lideranca", "color": "00427b", "description": "Liderança dos Instrutores"},
+    {"name": "setor:ministerio", "color": "60144c", "description": "Ministério (qualquer pasta)"},
+
+    {"name": "estado:aguarda-setor", "color": "fbca04", "description": "Esperando aprovação ou resposta do setor"},
+    {"name": "estado:precisa-spec", "color": "fef2c0", "description": "Aprovado, falta escrever a spec"},
+    {"name": "estado:pronto-pra-dev", "color": "0e8a16", "description": "Spec pronta, pode pegar"},
+    {"name": "estado:em-andamento", "color": "1d76db", "description": "Alguém está fazendo (branch aberto)"},
+    {"name": "estado:em-revisao", "color": "6f42c1", "description": "PR aberto esperando revisão"},
+    {"name": "estado:bloqueado", "color": "000000", "description": "Parado; o comentário diz por quê"},
+
+    {"name": "prioridade:alta", "color": "b60205", "description": "Antes de qualquer outra"},
+    {"name": "prioridade:media", "color": "fbca04", "description": "Na fila normal"},
+    {"name": "prioridade:baixa", "color": "c2e0c6", "description": "Quando sobrar tempo"},
+
+    {"name": "area:forum", "color": "bfd4f2", "description": "Página ou tópico hospedado no fórum"},
+    {"name": "area:apps-script", "color": "bfd4f2", "description": "Servidor no Google Apps Script"},
+    {"name": "area:planilha", "color": "bfd4f2", "description": "Planilha Google (abas, fórmulas)"},
+    {"name": "area:design", "color": "bfd4f2", "description": "Tela, tokens, DESIGN.md"},
+    {"name": "area:assets", "color": "bfd4f2", "description": "Imagens e outros arquivos de arte"},
+    {"name": "area:testes", "color": "bfd4f2", "description": "Testes automáticos"},
+
+    {"name": "good first issue", "color": "7057ff", "description": "Boa para estagiário de desenvolvimento"},
+    {"name": "duplicate", "color": "cfd3d7", "description": "Já existe outra issue igual"},
+    {"name": "wontfix", "color": "ffffff", "description": "Não vai ser feito"}
+  ],
+  "migrar": {
+    "bug": ["tipo:bug"],
+    "enhancement": ["tipo:melhoria"],
+    "documentation": ["tipo:docs"],
+    "question": [],
+    "invalid": [],
+    "help wanted": [],
+    "accessibility": ["area:design"],
+    "aguarda-src": ["estado:aguarda-setor", "setor:src"],
+    "ministerio-rh": ["setor:ministerio"]
+  }
+}

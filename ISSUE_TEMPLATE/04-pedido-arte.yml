@@ -1,0 +1,38 @@
+name: Pedido de arte ou asset
+description: Ícone, mascote, fundo, boneco ou outra imagem para um projeto.
+title: "[arte] "
+labels: ["tipo:arte", "area:assets"]
+body:
+  - type: textarea
+    id: oque
+    attributes:
+      label: O que precisa
+      placeholder: Ex.: hamster acenando para a tela de carregamento
+    validations:
+      required: true
+  - type: input
+    id: onde
+    attributes:
+      label: Onde entra
+      description: Tela, página do fórum ou estado (vazio, sucesso, erro).
+    validations:
+      required: true
+  - type: input
+    id: tamanho
+    attributes:
+      label: Tamanho final em px
+      placeholder: Ex.: 152x152 nativo
+  - type: textarea
+    id: referencia
+    attributes:
+      label: Referência
+      description: Imagem ou link de base. Arte de terceiros só com origem e autorização.
+  - type: checkboxes
+    id: regras
+    attributes:
+      label: Regras
+      options:
+        - label: Não mostra pessoa real sem consentimento escrito.
+          required: true
+        - label: Li o docs/ASSETS.md da organização.
+          required: true

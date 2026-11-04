@@ -1,0 +1,48 @@
+name: Bug
+description: Algo que funcionava e parou, ou que faz a coisa errada.
+title: "[bug] "
+labels: ["tipo:bug", "estado:precisa-spec"]
+body:
+  - type: markdown
+    attributes:
+      value: "Um bug por issue. Se for falha de segurança, pare aqui e leia o SECURITY.md."
+  - type: input
+    id: nick
+    attributes:
+      label: Seu nick na RCC
+      placeholder: Ex.: JokesD
+    validations:
+      required: true
+  - type: input
+    id: onde
+    attributes:
+      label: Onde aconteceu
+      description: Tela, página do fórum (ex.: h356) ou link.
+    validations:
+      required: true
+  - type: textarea
+    id: passos
+    attributes:
+      label: O que você fez
+      description: Passo a passo pra repetir.
+      placeholder: "1. Abri a Escala\n2. Cliquei em Registrar\n3. ..."
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: O que devia acontecer e o que aconteceu
+    validations:
+      required: true
+  - type: dropdown
+    id: aparelho
+    attributes:
+      label: Aparelho
+      options: [Celular, Computador, Os dois]
+    validations:
+      required: true
+  - type: textarea
+    id: print
+    attributes:
+      label: Print
+      description: Arraste a imagem aqui. Apague nicks de terceiros se não forem necessários.

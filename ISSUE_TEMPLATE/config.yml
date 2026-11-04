@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Pedir pelo fórum
+    url: https://www.policiarcc.com/
+    about: Não tem conta no GitHub? Mande o pedido por MP para a liderança do Departamento de Desenvolvimento.
+  - name: Relatar falha de segurança
+    url: https://github.com/Instrutores-RCC/.github/blob/main/SECURITY.md
+    about: Falha de segurança nunca vai em issue. Leia como relatar em particular.

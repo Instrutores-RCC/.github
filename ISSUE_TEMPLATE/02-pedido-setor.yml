@@ -1,0 +1,48 @@
+name: Pedido de setor
+description: Um setor ou órgão dos Instrutores pede uma ferramenta, página ou mudança.
+title: "[pedido] "
+labels: ["tipo:funcionalidade", "estado:aguarda-setor"]
+body:
+  - type: dropdown
+    id: setor
+    attributes:
+      label: Quem pede
+      options:
+        - SRC (Setor de Relações Comunicativas)
+        - SSI (Setor de Segurança dos Instrutores)
+        - DA (Departamento de Aplicação)
+        - Ouvidoria
+        - Liderança dos Instrutores
+        - Ministério
+    validations:
+      required: true
+  - type: input
+    id: pasta
+    attributes:
+      label: Pasta do Ministério (se for o Ministério)
+      placeholder: Administração, Atualização, Contabilidade, Documentação, Recursos Humanos, Segurança ou Finanças
+  - type: textarea
+    id: problema
+    attributes:
+      label: Qual problema isso resolve
+      description: Conte o problema, não a solução. Ex.: "a escala é montada à mão e erra o dia".
+    validations:
+      required: true
+  - type: textarea
+    id: quem
+    attributes:
+      label: Quem vai usar e quantas vezes
+      placeholder: Ex.: 4 secretários, todo dia, pelo celular
+    validations:
+      required: true
+  - type: input
+    id: prazo
+    attributes:
+      label: Prazo (se existir)
+  - type: input
+    id: aprovacao
+    attributes:
+      label: Aprovação do líder do setor
+      description: Nick de quem aprovou e link do post ou data da conversa.
+    validations:
+      required: true

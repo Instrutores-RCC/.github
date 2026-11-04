@@ -1,0 +1,32 @@
+name: Funcionalidade (devs)
+description: Proposta técnica de um dev, já com escopo.
+title: "[feat] "
+labels: ["tipo:funcionalidade", "estado:precisa-spec"]
+body:
+  - type: input
+    id: spec
+    attributes:
+      label: Spec
+      description: Pasta em docs/specs/ (ou "a criar").
+      placeholder: docs/specs/2026-11-04-nome-da-feature
+  - type: textarea
+    id: oque
+    attributes:
+      label: O que muda
+    validations:
+      required: true
+  - type: textarea
+    id: pronto
+    attributes:
+      label: Pronto quando
+      description: Teste de aceite. Se não dá pra conferir, está mal escrito.
+    validations:
+      required: true
+  - type: textarea
+    id: fora
+    attributes:
+      label: Fica de fora
+  - type: input
+    id: depende
+    attributes:
+      label: Depende de
