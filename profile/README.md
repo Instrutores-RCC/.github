@@ -17,4 +17,4 @@ Abra uma issue no repositório do setor com o formulário **Pedido de setor**, o
 
 ## Para devs
 
-Leia [como contribuir](https://github.com/Instrutores-RCC/.github/blob/main/CONTRIBUTING.md), [como revisar](https://github.com/Instrutores-RCC/.github/blob/main/docs/REVISAO.md), [aprovação de PR](https://github.com/Instrutores-RCC/.github/blob/main/docs/APROVACAO-PR.md), [assets](https://github.com/Instrutores-RCC/.github/blob/main/docs/ASSETS.md) e [cargos](https://github.com/Instrutores-RCC/.github/blob/main/docs/CARGOS.md). Repositório novo nasce do modelo `modelo-projeto`.
+Leia [como contribuir](https://github.com/Instrutores-RCC/.github/blob/main/CONTRIBUTING.md), [como revisar](https://github.com/Instrutores-RCC/.github/blob/main/docs/REVISAO.md), [aprovação de PR](https://github.com/Instrutores-RCC/.github/blob/main/docs/APROVACAO-PR.md), [assets](https://github.com/Instrutores-RCC/.github/blob/main/docs/ASSETS.md) , [cargos](https://github.com/Instrutores-RCC/.github/blob/main/docs/CARGOS.md) e [manutenção](https://github.com/Instrutores-RCC/.github/blob/main/docs/MANUTENCAO.md). Repositório novo nasce do modelo `modelo-projeto`.

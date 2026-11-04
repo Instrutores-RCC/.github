@@ -1,0 +1,25 @@
+name: Sincroniza labels
+
+on:
+  push:
+    branches: [main]
+    paths: [labels.json, scripts/sincroniza_labels.py]
+  schedule:
+    - cron: "0 12 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  labels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Aplicar labels.json em todos os repositórios
+        env:
+          GH_TOKEN: ${{ secrets.ORG_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then echo "Falta o segredo ORG_TOKEN. Veja docs/MANUTENCAO.md"; exit 1; fi
+          python3 scripts/sincroniza_labels.py --aplicar
