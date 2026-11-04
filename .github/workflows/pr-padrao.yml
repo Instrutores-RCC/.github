@@ -116,6 +116,7 @@ jobs:
     permissions:
       contents: read
       issues: write
+      pull-requests: read
     steps:
       - name: Avisar se alguém mandou commit direto na main
         env:
@@ -124,7 +125,9 @@ jobs:
           SHA: ${{ github.sha }}
           QUEM: ${{ github.actor }}
         run: |
-          prs=$(gh api "repos/$REPO/commits/$SHA/pulls" --jq 'length')
+          if ! prs=$(gh api "repos/$REPO/commits/$SHA/pulls" --jq 'length'); then
+            echo "::warning::Não consegui ver se o commit veio de PR."; exit 0
+          fi
           if [ "$prs" = "0" ]; then
             gh issue create -R "$REPO" --label tipo:tarefa --label estado:bloqueado \
               --title "Commit direto na main: ${SHA:0:7}" \
