@@ -29,6 +29,7 @@ Ele é público de propósito: no plano gratuito do GitHub, só repositório `.g
 | [REVISAO.md](docs/REVISAO.md) | Como revisar código: ordem, prefixos (`bloqueia:`, `sugestao:`...) e veredito |
 | [LABELS.md](docs/LABELS.md) | O que cada label quer dizer |
 | [ASSETS.md](docs/ASSETS.md) | Regras de imagem, pixel art, proveniência e consentimento |
+| [HOSPEDAR-NO-FORUM.md](docs/HOSPEDAR-NO-FORUM.md) | Página HTML no fórum com CSS e JS no `forum-assets` (Pages, reserva no jsDelivr, SRI) |
 | [MANUTENCAO.md](docs/MANUTENCAO.md) | Continuidade: quem sai, quem entra, revisão trimestral, token, recriar tudo |
 
 ## Scripts (`scripts/`)
