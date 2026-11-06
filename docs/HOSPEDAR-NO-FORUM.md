@@ -44,6 +44,19 @@ Rodar de novo sem mudar nada não sobe nada. Publique só depois que a PR entrou
 
 Cada versão gera um html novo. O admin abre a página no painel do fórum, apaga tudo e cola o html novo. Os arquivos das versões antigas continuam no ar, então a página que estava colada segue funcionando até a troca.
 
+## Quem pode mexer
+
+O `forum-assets` serve código que roda dentro do fórum, então duas regras do repositório (Settings > Rules > Rulesets) travam o que importa:
+
+| Regra | Vale para | Trava |
+|---|---|---|
+| Galho publicado | o galho padrão (`gh-pages`) | apagar, reescrever o histórico, subir sem PR aprovada por outra pessoa |
+| Etiquetas de versão | todas as tags | criar, mover e apagar |
+
+Só os donos da organização passam por cima das duas (é assim que o `--publicar` sobe direto). Um membro novo, mesmo com escrita, só muda alguma coisa por PR revisada e não consegue apagar nem mover uma versão que já está colada no fórum. A tag fixa também o endereço do jsDelivr: ninguém troca o arquivo de uma versão sem trocar o endereço.
+
+Os donos ficam em pelo menos duas contas, uma delas da liderança dos instrutores, para o código nunca depender de uma pessoa só. Tudo tem histórico no GitHub: quem apagou, quando e o quê.
+
 ## Teste antes de mandar para o fórum
 
 Sirva a pasta de saída em `127.0.0.1` e abra quatro cópias do html:
