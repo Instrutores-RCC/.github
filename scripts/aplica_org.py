@@ -55,6 +55,11 @@ TOPICOS = {
     "modelo-projeto": ["rcc", "instrutores", "modelo"],
 }
 
+# repositório restrito: só estes times entram, no lugar de PERM_GERAL; time a mais é tirado
+RESTRITOS = {
+    "departamento-dev": {"lider-dev": "admin", "lideranca": "triage"},
+}
+
 
 def gh(*args, ok404=False, corpo=None):
     if corpo is not None:
@@ -125,10 +130,18 @@ def main():
         print(f"{repo}: tópicos {topicos}")
         if faz:
             gh("-X", "PUT", f"repos/{ORG}/{repo}/topics", *sum((["-f", f"names[]={t}"] for t in topicos), []))
-        perms = dict(PERM_GERAL)
-        for t in topicos:
-            if t.startswith("setor-"):
-                perms[t] = "triage"
+        if repo in RESTRITOS:
+            perms = dict(RESTRITOS[repo])
+            for t in gh(f"repos/{ORG}/{repo}/teams") or []:
+                if t["slug"] not in perms:
+                    print(f"  {t['slug']}: tira (repositório restrito)")
+                    if faz:
+                        gh("-X", "DELETE", f"orgs/{ORG}/teams/{t['slug']}/repos/{ORG}/{repo}")
+        else:
+            perms = dict(PERM_GERAL)
+            for t in topicos:
+                if t.startswith("setor-"):
+                    perms[t] = "triage"
         for slug, perm in perms.items():
             print(f"  {slug}: {perm}")
             if faz:

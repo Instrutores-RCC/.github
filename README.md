@@ -84,7 +84,8 @@ jobs:
 
 1. `lider-dev` cria a partir do modelo: **Use this template** em `modelo-projeto`.
 2. Põe o tópico do setor dono (ex.: `setor-src`) em `aplica_org.py` (`TOPICOS`).
-3. Na segunda seguinte a ação de saúde aplica times, permissões e regras. Para não esperar: `python scripts/aplica_org.py --aplicar`.
+3. Repositório que só alguns times podem ver (ex.: `departamento-dev`) entra em `RESTRITOS`, no mesmo arquivo, com os times e a permissão de cada um. Sem isso, a ação de saúde dá leitura a todos os Instrutores e escrita a desenvolvedores e designers.
+4. Na segunda seguinte a ação de saúde aplica times, permissões e regras. Para não esperar: `python scripts/aplica_org.py --aplicar`.
 
 ## Mudar uma regra
 
