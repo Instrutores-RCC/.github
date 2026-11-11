@@ -2,9 +2,11 @@
 
 Uso:
     python scripts/saude_org.py              # só mostra
+    python scripts/saude_org.py --detalhe    # mostra também quem é (nick), só na sua máquina
     python scripts/saude_org.py --issue      # abre/atualiza a issue "Saúde da organização" no .github
                                              # e fecha quando tudo voltar ao normal
 
+O .github é público: a issue e o log da ação levam só contagens, nunca nick de membro.
 Precisa do gh com um token de dono da organização (ORG_TOKEN na ação).
 """
 import argparse
@@ -37,7 +39,8 @@ def vencimento_token():
 
 
 def problemas():
-    achados = []
+    achados = []   # vai para a issue pública: sem nick
+    pessoais = []  # com nick: só aparece com --detalhe
     org = api(f"orgs/{ORG}")
     if org.get("default_repository_permission") != "none":
         achados.append("Permissão base da organização não é `none`.")
@@ -51,8 +54,9 @@ def problemas():
         achados.append("A conta do departamento `instrutoresrcc` não é dona da organização.")
 
     sem_2fa = api(f"orgs/{ORG}/members?filter=2fa_disabled&per_page=100", falha_ok=True) or []
-    for m in sem_2fa:
-        achados.append(f"`{m['login']}` está sem 2FA.")
+    if sem_2fa:
+        achados.append(f"{len(sem_2fa)} membro(s) sem 2FA. Quem é: People da organização, filtro 2FA.")
+        pessoais += [f"`{m['login']}` está sem 2FA." for m in sem_2fa]
 
     lideres = api(f"orgs/{ORG}/teams/lider-dev/members?per_page=100", falha_ok=True) or []
     if len(lideres) < 2:
@@ -70,8 +74,10 @@ def problemas():
         if times.get("lider-dev") != "admin":
             achados.append(f"`{nome}` sem o time `lider-dev` como admin.")
         colab = api(f"repos/{ORG}/{nome}/collaborators?affiliation=direct&per_page=100", falha_ok=True) or []
-        for c in colab:
-            achados.append(f"`{nome}`: `{c['login']}` tem acesso individual (regra: só por time).")
+        if colab:
+            achados.append(f"`{nome}`: {len(colab)} acesso(s) individual(is) (regra: só por time). "
+                           "Quem é: Settings > Collaborators and teams do repositório.")
+            pessoais += [f"`{nome}`: `{c['login']}` tem acesso individual." for c in colab]
         empurrado = dt.datetime.fromisoformat(r["pushed_at"].replace("Z", "+00:00"))
         if (dt.datetime.now(dt.timezone.utc) - empurrado).days > 365:
             achados.append(f"`{nome}` parado há mais de 1 ano: avaliar arquivar.")
@@ -79,7 +85,7 @@ def problemas():
     venc = vencimento_token()
     if venc and (venc - dt.date.today()).days < 30:
         achados.append(f"O token `ORG_TOKEN` vence em {venc.isoformat()}. Gere outro (docs/MANUTENCAO.md).")
-    return achados
+    return achados, pessoais
 
 
 def issue_aberta():
@@ -95,12 +101,17 @@ def issue_aberta():
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--issue", action="store_true")
+    p.add_argument("--detalhe", action="store_true", help="mostra os nicks; nunca use na ação")
     a = p.parse_args()
-    achados = problemas()
+    if a.issue and a.detalhe:
+        p.error("--detalhe não vai junto com --issue: o log da ação é público")
+    achados, pessoais = problemas()
     hoje = dt.date.today().isoformat()
     corpo = f"Checagem de {hoje}.\n\n" + "\n".join(f"- [ ] {x}" for x in achados) + \
         "\n\nComo corrigir: [docs/MANUTENCAO.md](https://github.com/Instrutores-RCC/.github/blob/main/docs/MANUTENCAO.md)."
     print(corpo if achados else f"Tudo em ordem ({hoje}).")
+    if a.detalhe and pessoais:
+        print("\nQuem é (não publicar):\n" + "\n".join(f"- {x}" for x in pessoais))
     if not a.issue:
         return 0
     numero = issue_aberta()
