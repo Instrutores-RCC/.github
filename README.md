@@ -40,7 +40,7 @@ Só Python padrão e o `gh` logado. Sem `--aplicar` eles só mostram o que faria
 |---|---|
 | `aplica_org.py` | Cria os 16 times, dá permissão por time em cada repositório, põe tópicos, fixa merge só squash e protege a `main` |
 | `sincroniza_labels.py` | Deixa as labels de cada repositório iguais ao `labels.json`, migrando as antigas antes de apagar |
-| `saude_org.py` | Confere as regras de continuidade e, com `--issue`, abre ou fecha a issue "Saúde da organização" |
+| `saude_org.py` | Confere as regras de continuidade e, com `--issue`, abre ou fecha a issue "Saúde da organização" (só contagens, sem nick); com `--detalhe`, mostra os nicks na tela |
 
 ```bash
 python scripts/aplica_org.py              # simulação
