@@ -37,8 +37,10 @@ def labels_atuais(repo):
 
 
 def itens_com_label(repo, label):
-    q = f'repo:{ORG}/{repo} label:"{label}"'
-    saida = gh("api", "-X", "GET", "search/issues", "-f", f"q={q}", "-f", "per_page=100", "--jq", ".items[].number")
+    # Issues e PRs do repositório com o label. O endpoint de issues devolve os dois e usa o limite
+    # normal da API; a busca (search/issues) exige is:issue ou is:pull-request e para em 30 por minuto.
+    saida = gh("api", "--paginate", "-X", "GET", f"repos/{ORG}/{repo}/issues", "-f", "state=all",
+               "-f", f"labels={label}", "-f", "per_page=100", "--jq", ".[].number")
     return [int(n) for n in saida.split() if n]
 
 
