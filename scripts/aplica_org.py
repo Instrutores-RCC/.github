@@ -32,7 +32,7 @@ TIMES = [
     ("revisores", "desenvolvimento", "Revisores: aprovam PR"),
     ("desenvolvedores", "desenvolvimento", "Desenvolvedores: specs e PRs"),
     ("designers", "desenvolvimento", "Designers: assets, DESIGN.md, protótipos"),
-    ("estagiarios-dev", "desenvolvimento", "Estagiários de Desenvolvimento"),
+    ("aprendizes-dev", "desenvolvimento", "Aprendizes de Desenvolvimento"),
 ]
 
 # permissão de cada time em TODO repositório
@@ -43,7 +43,7 @@ PERM_GERAL = {
     "revisores": "maintain",
     "desenvolvedores": "push",
     "designers": "push",
-    "estagiarios-dev": "triage",
+    "aprendizes-dev": "triage",
 }
 
 # tópicos por repositório; tópico setor-<x> dá triage ao time setor-<x>

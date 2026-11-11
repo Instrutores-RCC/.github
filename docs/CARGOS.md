@@ -32,11 +32,11 @@ Estar em qualquer time daqui = marcador `[DEV]` (Desenvolvedor da Companhia) no 
 | `revisores` | Revisor | maintain | aprova PR, mantém labels e marcos |
 | `desenvolvedores` | Desenvolvedor | write | escreve spec, implementa, abre PR |
 | `designers` | Designer | write | assets, `DESIGN.md`, protótipos; dono de `design/` |
-| `estagiarios-dev` | Estagiário de Desenvolvimento | triage | pega `good first issue`, todo PR com revisor |
+| `aprendizes-dev` | Aprendiz de Desenvolvimento | triage | pega a missão, todo PR com mentor |
 
 ### Como sobe
 
-- Estagiário → Desenvolvedor: 3 PRs aprovados sem `bloqueia:` em aberto.
+- Aprendiz → Desenvolvedor: 3 PRs aprovados sem `bloqueia:` em aberto.
 - Desenvolvedor → Revisor: 10 PRs aprovados e 5 revisões feitas acompanhadas por um revisor.
 - Revisor → Líder: decisão da liderança do departamento.
 

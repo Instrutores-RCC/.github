@@ -33,7 +33,7 @@
     {"name": "area:assets", "color": "bfd4f2", "description": "Imagens e outros arquivos de arte"},
     {"name": "area:testes", "color": "bfd4f2", "description": "Testes automáticos"},
 
-    {"name": "good first issue", "color": "7057ff", "description": "Boa para estagiário de desenvolvimento"},
+    {"name": "good first issue", "color": "7057ff", "description": "Boa para Aprendiz de Desenvolvimento"},
     {"name": "duplicate", "color": "cfd3d7", "description": "Já existe outra issue igual"},
     {"name": "wontfix", "color": "ffffff", "description": "Não vai ser feito"}
   ],

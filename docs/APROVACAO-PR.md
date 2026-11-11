@@ -9,12 +9,12 @@
 5. Push depois da aprovação anula a aprovação. Peça de novo.
 6. Todas as conversas resolvidas antes do merge.
 7. Merge por **squash**. Branch apagado depois.
-8. PR de `estagiarios-dev` precisa de revisor, e o `lider-dev` fica marcado.
+8. PR de `aprendizes-dev` precisa de revisor, e o `lider-dev` fica marcado.
 9. Mudança que o setor vai ver (tela, texto, regra) só vai pro ar com o ok do líder do setor registrado na issue.
 
 ## Quem faz o merge
 
-O autor, depois da aprovação. Se o autor for estagiário, o revisor que aprovou.
+O autor, depois da aprovação. Se o autor for Aprendiz, o revisor que aprovou.
 
 ## Limite técnico atual
 
