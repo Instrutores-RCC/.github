@@ -32,7 +32,7 @@ Estar em qualquer time daqui = marcador `[DEV]` (Desenvolvedor da Companhia) no 
 | `revisores` | Revisor | maintain | aprova PR, mantém labels e marcos |
 | `desenvolvedores` | Desenvolvedor | write | escreve spec, implementa, abre PR |
 | `designers` | Designer | write | assets, `DESIGN.md`, protótipos; dono de `design/` |
-| `aprendizes-dev` | Aprendiz de Desenvolvimento | triage | pega a missão, todo PR com mentor |
+| `aprendizes-dev` | Aprendiz de Desenvolvimento | write nos repositórios de missão (`central-do-src`, `ouvidoria-ins`, `systemins`), triage nos outros | pega a missão, todo PR com mentor |
 
 ### Como sobe
 

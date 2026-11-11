@@ -46,6 +46,11 @@ PERM_GERAL = {
     "aprendizes-dev": "triage",
 }
 
+# Aprendiz precisa subir branch para abrir PR, e o fork de privado é desligado na org.
+# Nos repositórios de missão (mentoria/banco-de-missoes.md do departamento-dev) o
+# aprendizes-dev ganha push no lugar do triage de PERM_GERAL.
+REPOS_DE_MISSAO = {"central-do-src", "ouvidoria-ins", "systemins"}
+
 # tópicos por repositório; tópico setor-<x> dá triage ao time setor-<x>
 TOPICOS = {
     "central-do-src": ["rcc", "instrutores", "setor-src", "apps-script", "forum", "html"],
@@ -142,6 +147,8 @@ def main():
             for t in topicos:
                 if t.startswith("setor-"):
                     perms[t] = "triage"
+            if repo in REPOS_DE_MISSAO:
+                perms["aprendizes-dev"] = "push"
         for slug, perm in perms.items():
             print(f"  {slug}: {perm}")
             if faz:
