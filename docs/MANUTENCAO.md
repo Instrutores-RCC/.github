@@ -24,7 +24,7 @@ A organização não depende de uma pessoa. Se qualquer dev sair, nada para.
 ## Quando alguém entra
 
 1. Pede pelo fórum, informando nick RCC e usuário GitHub.
-2. `lider-dev` convida para a organização direto no time certo (estagiário começa em `estagiarios-dev`).
+2. `lider-dev` convida para a organização direto no time certo (Aprendiz começa em `aprendizes-dev`).
 3. Adiciona a linha em `docs/CARGOS.md`.
 
 ## O que roda sozinho
