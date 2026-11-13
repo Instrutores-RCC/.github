@@ -26,6 +26,11 @@
     {"name": "prioridade:media", "color": "fbca04", "description": "Na fila normal"},
     {"name": "prioridade:baixa", "color": "c2e0c6", "description": "Quando sobrar tempo"},
 
+    {"name": "versao:v1", "color": "d93f0b", "description": "Precisa entrar antes da v1 do projeto sair"},
+    {"name": "versao:v2", "color": "5319e7", "description": "Mapeado para depois da v1"},
+
+    {"name": "origem:auditoria", "color": "fbca04", "description": "Achado de auditoria do repositório"},
+
     {"name": "area:forum", "color": "bfd4f2", "description": "Página ou tópico hospedado no fórum"},
     {"name": "area:apps-script", "color": "bfd4f2", "description": "Servidor no Google Apps Script"},
     {"name": "area:planilha", "color": "bfd4f2", "description": "Planilha Google (abas, fórmulas)"},
@@ -46,6 +51,9 @@
     "help wanted": [],
     "accessibility": ["area:design"],
     "aguarda-src": ["estado:aguarda-setor", "setor:src"],
-    "ministerio-rh": ["setor:ministerio"]
+    "ministerio-rh": ["setor:ministerio"],
+    "v1": ["versao:v1"],
+    "v2": ["versao:v2"],
+    "auditoria": ["origem:auditoria"]
   }
 }
