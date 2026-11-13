@@ -51,6 +51,9 @@ PERM_GERAL = {
 # aprendizes-dev ganha push no lugar do triage de PERM_GERAL.
 REPOS_DE_MISSAO = {"central-do-src", "ouvidoria-ins", "systemins"}
 
+# Menor privilégio no repositório da configuração da org: só lider-dev e revisores escrevem.
+SO_TRIAGE = {".github": {"desenvolvedores", "designers"}}
+
 # tópicos por repositório; tópico setor-<x> dá triage ao time setor-<x>
 TOPICOS = {
     "central-do-src": ["rcc", "instrutores", "setor-src", "apps-script", "forum", "html"],
@@ -149,6 +152,8 @@ def main():
                     perms[t] = "triage"
             if repo in REPOS_DE_MISSAO:
                 perms["aprendizes-dev"] = "push"
+            for slug in SO_TRIAGE.get(repo, ()):
+                perms[slug] = "triage"
         for slug, perm in perms.items():
             print(f"  {slug}: {perm}")
             if faz:

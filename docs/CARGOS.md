@@ -30,8 +30,8 @@ Estar em qualquer time daqui = marcador `[DEV]` (Desenvolvedor da Companhia) no 
 |---|---|---|---|
 | `lider-dev` | Líder de Desenvolvimento | admin | arquitetura, cria repositório, recebe relato de segurança, segunda aprovação em PR sensível |
 | `revisores` | Revisor | maintain | aprova PR, mantém labels e marcos |
-| `desenvolvedores` | Desenvolvedor | write | escreve spec, implementa, abre PR |
-| `designers` | Designer | write | assets, `DESIGN.md`, protótipos; dono de `design/` |
+| `desenvolvedores` | Desenvolvedor | write (triage no `.github`) | escreve spec, implementa, abre PR |
+| `designers` | Designer | write (triage no `.github`) | assets, `DESIGN.md`, protótipos; dono de `design/` |
 | `aprendizes-dev` | Aprendiz de Desenvolvimento | write nos repositórios de missão (`central-do-src`, `ouvidoria-ins`, `systemins`), triage nos outros | pega a missão, todo PR com mentor |
 
 ### Como sobe
