@@ -83,7 +83,7 @@ def gh(*args, ok404=False, corpo=None):
 
 def protecao(repo):
     """Regra da main (docs/APROVACAO-PR.md). Admin (lider-dev) pode furar em emergência."""
-    check = "valida" if repo == ".github" else "padrao / segredos"
+    check = "valida" if repo == ".github" else "padrao / checagem"
     return {
         "required_status_checks": {"strict": False, "contexts": [check]},
         "enforce_admins": False,
@@ -107,7 +107,7 @@ def protege(repo, faz):
         gh("-X", "PUT", f"repos/{ORG}/{repo}/branches/main/protection", corpo=protecao(repo))
     except RuntimeError as e:
         if "Upgrade to GitHub Pro" in str(e) or "403" in str(e):
-            print("  AVISO: plano free não protege repositório privado; a regra vale só por CODEOWNERS e pela ação push-direto")
+            print("  AVISO: plano free não protege repositório privado; a regra vale só por CODEOWNERS e pela checagem semanal de commit direto")
         elif "Branch not found" in str(e) or "404" in str(e):
             print("  AVISO: repositório sem main ainda, pulando")
         else:

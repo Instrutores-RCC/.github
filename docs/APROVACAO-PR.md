@@ -24,5 +24,5 @@ O que já é automático mesmo no plano gratuito:
 
 - Repositório público (`.github`): `main` travada de verdade. Só por PR, 1 aprovação do CODEOWNERS, aprovação cai com push novo, check `valida` verde, conversas resolvidas, sem force push e sem apagar a branch.
 - Todos os repositórios: só merge squash e a branch é apagada depois do merge.
-- Commit direto na `main` sem PR abre sozinho uma issue `estado:bloqueado` (job `push-direto` do `pr-padrao.yml`).
+- Commit direto na `main` sem PR aparece na issue "Saúde da organização" na segunda seguinte (só o sha, sem nick).
 - Toda segunda a ação `Saúde da organização` reaplica estas regras com `scripts/aplica_org.py`. Se um dia o plano virar Team, a trava passa a valer nos privados sem ninguém mexer.

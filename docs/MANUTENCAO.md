@@ -35,8 +35,8 @@ A organização não depende de uma pessoa. Se qualquer dev sair, nada para.
 | Conferência das regras desta página | Ação `Saúde da organização`: toda segunda; abre a issue "Saúde da organização" se algo saiu da regra e fecha quando volta. A issue é pública e só leva contagens; para ver os nicks, `python scripts/saude_org.py --detalhe` na sua máquina |
 | Lembrete da revisão trimestral | Ação `Revisão trimestral`: abre a issue com o checklist em jan, abr, jul e out |
 | Checagem de segredo, testes e rótulos em todo PR | Workflow reutilizável `pr-padrao.yml`, chamado por `.github/workflows/pr.yml` de cada repositório |
-| Issue marcada `estado:em-revisao` quando o PR que a fecha abre | Mesmo `pr-padrao.yml` (job `rotulos`) |
-| Aviso de commit direto na `main` | Mesmo `pr-padrao.yml` (job `push-direto`) abre issue |
+| Issue marcada `estado:em-revisao` quando o PR que a fecha abre | Mesmo `pr-padrao.yml` (passo de rótulos) |
+| Aviso de commit direto na `main` | Ação `Saúde da organização`: toda segunda lista na issue os commits da `main` dos privados sem PR |
 | Regras de merge e proteção da `main` reaplicadas | Ação `Saúde da organização` roda `aplica_org.py --aplicar` toda segunda |
 | Validação deste repositório | Ação `Valida configuração`: scripts, `labels.json` e formulários abrem sem erro |
 | Ações sempre atualizadas | Dependabot abre PR mensal quando uma ação usada fica velha |

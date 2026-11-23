@@ -51,8 +51,8 @@ python scripts/aplica_org.py --aplicar    # aplica
 
 | Workflow | Quando roda | Faz |
 |---|---|---|
-| `pr-padrao.yml` | Chamado pelo `pr.yml` de cada repositório | Barra segredo e arquivo proibido no PR, roda os testes do repositório, rotula o PR pela pasta, marca a issue ligada como `estado:em-revisao`, avisa se faltar "Como testar" e abre issue se alguém mandar commit direto na `main` |
-| `saude-org.yml` | Toda segunda, 12h UTC | Reaplica `aplica_org.py` e roda `saude_org.py --issue` |
+| `pr-padrao.yml` | Chamado pelo `pr.yml` de cada repositório | Barra segredo e arquivo proibido no PR, roda os testes do repositório, rotula o PR pela pasta, marca a issue ligada como `estado:em-revisao`, avisa se faltar "Como testar". Um job só, pula PR em rascunho e cancela a checagem antiga quando chega push novo |
+| `saude-org.yml` | Toda segunda, 12h UTC | Reaplica `aplica_org.py` e roda `saude_org.py --issue` (inclui commit direto na `main` dos privados) |
 | `sincroniza-labels.yml` | Ao mudar `labels.json` e todo dia 1º | Roda `sincroniza_labels.py --aplicar` |
 | `revisao-trimestral.yml` | Jan, abr, jul e out | Abre a issue com o checklist da revisão trimestral |
 | `valida.yml` | Todo PR e push neste repositório | Confere se scripts, `labels.json` e YAML abrem sem erro (check obrigatório da `main`) |
@@ -67,8 +67,10 @@ Crie `.github/workflows/pr.yml` no repositório (o `modelo-projeto` já vem com 
 name: PR
 on:
   pull_request:
-  push:
-    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 permissions:
   contents: read
   pull-requests: write

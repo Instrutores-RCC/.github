@@ -29,6 +29,27 @@ def api(caminho, *extra, falha_ok=False):
     return json.loads(r.stdout) if r.stdout.strip() else {}
 
 
+DIAS_COMMIT = 8  # a ação roda toda segunda; 8 dias cobrem a semana com folga
+
+
+def commits_sem_pr(nome):
+    """Commits da main sem PR. Privado no plano gratuito não trava a main, então é aqui que se vê.
+
+    Roda no .github (público, Actions grátis) em vez de um job por push em cada repositório privado.
+    Devolve só o sha curto: o autor fica fora da issue pública.
+    """
+    desde = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=DIAS_COMMIT)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    commits = api(f"repos/{ORG}/{nome}/commits?sha=main&since={desde}&per_page=100", falha_ok=True) or []
+    diretos = []
+    for c in commits:
+        if not c.get("parents"):  # primeiro commit do repositório não vem de PR
+            continue
+        prs =api(f"repos/{ORG}/{nome}/commits/{c['sha']}/pulls", falha_ok=True)
+        if prs == []:
+            diretos.append(c["sha"][:7])
+    return diretos
+
+
 def vencimento_token():
     r = subprocess.run(["gh", "api", "-i", "rate_limit"], capture_output=True, text=True, encoding="utf-8")
     for linha in r.stdout.splitlines():
@@ -81,6 +102,11 @@ def problemas():
         empurrado = dt.datetime.fromisoformat(r["pushed_at"].replace("Z", "+00:00"))
         if (dt.datetime.now(dt.timezone.utc) - empurrado).days > 365:
             achados.append(f"`{nome}` parado há mais de 1 ano: avaliar arquivar.")
+        if r["private"]:
+            diretos = commits_sem_pr(nome)
+            if diretos:
+                achados.append(f"`{nome}`: commit direto na `main` sem PR nos últimos {DIAS_COMMIT} dias "
+                               f"({', '.join(diretos)}). Revisar o commit (docs/APROVACAO-PR.md).")
 
     venc = vencimento_token()
     if venc and (venc - dt.date.today()).days < 30:
